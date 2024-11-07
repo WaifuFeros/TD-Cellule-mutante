@@ -15,6 +15,11 @@ namespace TD_Cellule_mutante
 
         private Random random = new Random();
 
+        private const char A = 'A';
+        private const char T = 'T';
+        private const char C = 'C';
+        private const char G = 'G';
+
         public Cell(int size, Color color, string genetic)
         {
             this.size = size;
@@ -29,7 +34,60 @@ namespace TD_Cellule_mutante
 
         public void Mutation()
         {
+            string newGenetic = string.Empty;
 
+            foreach (var letter in genetic)
+            {
+                // Character changing
+                switch (letter)
+                {
+                    default:
+                        break;
+                    case A:
+                        if (GetProbability(15))
+                            newGenetic += T;
+                        break;
+                    case T:
+                        if (GetProbability(7))
+                            newGenetic += A+A;
+                        break;
+                    case C:
+                        if (GetProbability(21))
+                            newGenetic += G;
+                        break;
+                    case G:
+                        if (GetProbability(4))
+                            newGenetic += C+G;
+                        break;
+                }
+
+                // Character addition
+                if (GetProbability(5))
+                {
+                    switch (random.Next(1, 5))
+                    {
+                        default:
+                        case 1:
+                            newGenetic += A;
+                            break;
+                        case 2:
+                            newGenetic += T;
+                            break;
+                        case 3:
+                            newGenetic += C;
+                            break;
+                        case 4:
+                            newGenetic += G;
+                            break;
+                    }
+
+                }
+            }
+
+            genetic = newGenetic;
+
+            UpdateColor();
+            UpdateSize();
         }
 
         public void UpdateSize()
@@ -42,9 +100,9 @@ namespace TD_Cellule_mutante
 
         }
 
-        private bool GetProbability(float probability)
+        private bool GetProbability(float probabilityInPercent)
         {
-            return random.Next(1, 101) <= probability;
+            return random.Next(1, 101) <= probabilityInPercent;
         }
 
         public override string ToString()
