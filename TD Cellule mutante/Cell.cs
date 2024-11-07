@@ -15,10 +15,19 @@ namespace TD_Cellule_mutante
 
         private Random random = new Random();
 
+        // Letters
         private const char A = 'A';
         private const char T = 'T';
         private const char C = 'C';
         private const char G = 'G';
+
+        // Patterns
+        private const string TGT = "TGT";
+        private const string ATT = "ATT";
+        private const string CTC = "CTC";
+        private const string ACT = "ACT";
+        private const string GTC = "GTC";
+        private const string GAA = "GAA";
 
         public Cell(int size, Color color, string genetic)
         {
@@ -92,7 +101,63 @@ namespace TD_Cellule_mutante
 
         public void UpdateSize()
         {
+            var newColor = Color.Black;
 
+            Dictionary<string, int> recurrence = new Dictionary<string, int>();
+
+            for (int i = 0; i < genetic.Length - 2; i++)
+            {
+                string pattern = genetic.Substring(i, 3);
+
+                switch (pattern)
+                {
+                    default:
+                        break;
+                    case TGT:
+                    case ATT:
+                    case CTC:
+                    case ACT:
+                    case GTC:
+                    case GAA:
+                        if (recurrence.ContainsKey(pattern))
+                            recurrence[pattern]++;
+                        else
+                            recurrence.Add(pattern, 1);
+                        break;
+                }
+            }
+
+            if (recurrence.Count <= 0)
+                return;
+
+            string mostRecurrent = recurrence.OrderByDescending(x => x.Value)
+                .FirstOrDefault().Key;
+
+            switch (mostRecurrent)
+            {
+                default:
+                    break;
+                case TGT:
+                    newColor = Color.Black;
+                    break;
+                case ATT:
+                    newColor = Color.Blue;
+                    break;
+                case CTC:
+                    newColor = Color.Yellow;
+                    break;
+                case ACT:
+                    newColor = Color.Violet;
+                    break;
+                case GTC:
+                    newColor = Color.Orange;
+                    break;
+                case GAA:
+                    newColor = Color.Green;
+                    break;
+            }
+
+            // Update visual
         }
 
         public void UpdateColor()
