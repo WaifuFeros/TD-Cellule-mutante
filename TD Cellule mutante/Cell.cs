@@ -45,7 +45,7 @@ namespace TD_Cellule_mutante
 
         public void Mutation()
         {
-            string newGenetic = string.Empty;
+            string newGenetic = genetic;
 
             foreach (var letter in genetic)
             {
@@ -181,6 +181,23 @@ namespace TD_Cellule_mutante
         {
             // inutile
             return base.ToString();
+        }
+    }
+
+    public class SimpleCell
+    {
+        public int size;
+        public Color color;
+        private Random rnd = new Random();
+        public SimpleCell()
+        {
+            size = 10;
+            color = Color.Black;
+        }
+        public void Mutation()
+        {
+            size += 5;
+            color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
         }
     }
 }
