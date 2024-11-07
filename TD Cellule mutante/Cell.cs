@@ -38,7 +38,9 @@ namespace TD_Cellule_mutante
 
         public Cell()
         {
-
+            size = 10;
+            color = Color.Black;
+            genetic = string.Empty;
         }
 
         public void Mutation()
@@ -101,6 +103,15 @@ namespace TD_Cellule_mutante
 
         public void UpdateSize()
         {
+            int newSize = 10;
+            newSize += genetic.Length / 5;
+            newSize += Math.Min(genetic.Count(x => x == T), size);
+
+            size = newSize;
+        }
+
+        public void UpdateColor()
+        {
             var newColor = Color.Black;
 
             Dictionary<string, int> recurrence = new Dictionary<string, int>();
@@ -157,12 +168,8 @@ namespace TD_Cellule_mutante
                     break;
             }
 
+            color = newColor;
             // Update visual
-        }
-
-        public void UpdateColor()
-        {
-
         }
 
         private bool GetProbability(float probabilityInPercent)
